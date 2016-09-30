@@ -7,6 +7,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 /**
@@ -15,10 +18,16 @@ import android.widget.EditText;
 
 public class CrimeFragment extends Fragment {
 
-    // Member variable for an instance of Crime
+    /*
+     * @param mCrime a member variable for an instance of Crime
+     * @param mTitleField a reference to the title EditText field
+     * @param mDateButton a Button that also displays the date of the Crime
+     * @param mSolvedCheckbox a Checkbox that indicates whether Crime is solved or not
+     */
     private Crime mCrime;
-
     private EditText mTitleField;
+    private Button mDateButton;
+    private CheckBox mSolvedCheckBox;
 
     // Fragment onCreate() must be public (vs. protected) because they will be called by whatever
     // activity is hosting the fragment
@@ -51,6 +60,21 @@ public class CrimeFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+        // Assign reference to mDateButton, set its text to Crime's mDate, and enabled to false
+        mDateButton = (Button) view.findViewById(R.id.crime_date);
+        mDateButton.setText(mCrime.getDate().toString());
+        mDateButton.setEnabled(false);
+
+        // Assign reference to mSolvedCheckBox, set a listener that will update Crime's mSolved field
+        mSolvedCheckBox = (CheckBox) view.findViewById(R.id.crime_solved);
+        mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Set Crime's solved property
+                mCrime.setSolved(isChecked);
             }
         });
 
