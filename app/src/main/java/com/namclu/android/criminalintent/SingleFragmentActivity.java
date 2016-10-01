@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentManager;
 
 public abstract class SingleFragmentActivity extends FragmentActivity {
 
-    //
+    // Method used to return an instance of the fragment that activity is hosting.
     protected abstract Fragment createFragment();
 
     @Override
