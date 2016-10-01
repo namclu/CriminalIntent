@@ -8,13 +8,15 @@ import java.util.UUID;
 
 /**
  * Created by namlu on 01-Oct-16.
+ *
+ * CrimeLab creates and stores a List of Crime objects
  */
 
 public class CrimeLab {
 
     /*
      * @param sCrimeLab CrimeLab's static, singleton object
-     * @param mCrimes
+     * @param mCrimes a List of Crime objects
      */
     private static CrimeLab sCrimeLab;
     private List<Crime> mCrimes;
@@ -41,12 +43,12 @@ public class CrimeLab {
         }
     }
 
-    // Return a List of crimes
+    // Returns a List of Crime objects
     public List<Crime> getCrimes() {
         return mCrimes;
     }
 
-    //
+    // Returns a specific Crime object
     public Crime getCrime(UUID id) {
         for (Crime crime: mCrimes) {
             if (crime.getID().equals(id)) {
