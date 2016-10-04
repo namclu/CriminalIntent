@@ -97,7 +97,7 @@ public class CrimeListFragment extends Fragment {
         // onClick() launches a new CrimeActivity that is hosting a CrimeFragment
         @Override
         public void onClick(View view) {
-            Intent intent = CrimeActivity.newIntent(getActivity() , mCrime.getID());
+            Intent intent = CrimeActivity.newIntent(getActivity() , mCrime.getId());
             startActivity(intent);
         }
     }
