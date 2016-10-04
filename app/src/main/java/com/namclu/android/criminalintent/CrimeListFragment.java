@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,17 @@ import java.util.List;
 
 public class CrimeListFragment extends Fragment {
 
+    private static final int REQUEST_CRIME = 1;
+
     /*
      * @param mCrimeRecyclerView
      * @param mAdapter
+     * @param mItemPosition captures the item list position user last clicked on
      *
      */
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private int mItemPosition;
 
     // Fragment lifecycle which creates and returns the view hierarchy associated with the fragment
     @Override
@@ -57,6 +62,7 @@ public class CrimeListFragment extends Fragment {
         // Get a List of Crime objects
         List<Crime> crimes = crimeLab.getCrimes();
 
+        // TODO - When updating UI, if last position clicked > 0, then update only that position
         if (mAdapter == null) {
             mAdapter = new CrimeAdapter(crimes);
 
@@ -97,8 +103,15 @@ public class CrimeListFragment extends Fragment {
         // onClick() launches a new CrimeActivity that is hosting a CrimeFragment
         @Override
         public void onClick(View view) {
+            // When the user selects a Fragment from list, capture its position on the list
+            // .getChildAdapterPosition(View child)
+            mItemPosition = mCrimeRecyclerView.getChildAdapterPosition(view);
+
             Intent intent = CrimeActivity.newIntent(getActivity() , mCrime.getID());
             startActivity(intent);
+
+            // TODO - remove log
+            Log.d("CrimeListFragment", "Position: " + mItemPosition);
         }
     }
 
