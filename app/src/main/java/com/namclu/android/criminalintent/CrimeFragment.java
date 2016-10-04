@@ -16,9 +16,14 @@ import java.util.UUID;
 
 /**
  * Created by namlu on 25-Sep-16.
+ *
+ * CrimeFragment.java is a Fragment that contains a single Crime along with all of Crime's details
  */
 
 public class CrimeFragment extends Fragment {
+
+    // String key for Crime ID
+    private static final String ARG_CRIME_ID = "crime_id";
 
     /*
      * @param mCrime a member variable for an instance of Crime
@@ -31,14 +36,31 @@ public class CrimeFragment extends Fragment {
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
 
-    // Fragment onCreate() must be public (vs. protected) because they will be called by whatever
-    // activity is hosting the fragment
+    // Bundle contains key-value pairs for Fragments, similar to how intent extras behave for Activities
+    // Activities can call CrimeFragment.newInstance(UUID) to create a CrimeFragment rather than
+    // calling the constructor directly
+    // The Activity can pass in any required parameters to newInstance() that fragment needs to
+    // create its arguments
+    public static CrimeFragment newInstance(UUID crimeId) {
+        Bundle args = new Bundle();
+        // .putSerializable(String key, Serializable value);
+        args.putSerializable(ARG_CRIME_ID, crimeId);
+
+        // Attaching arguments to a fragment must be done after fragment is create but before it is
+        // added to an activity
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    // CrimeFragment's onCreate() must be public (vs. protected) because they will be called by
+    // whatever activity is hosting the fragment
     // Retrieve the EXTRA from CrimeActivity and fetch the crime
+    // getArguments() plus type-specific "get" methods of Bundle used by Fragments to access its arguments
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UUID crimeId = (UUID) getActivity().getIntent()
-                .getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
+        UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 

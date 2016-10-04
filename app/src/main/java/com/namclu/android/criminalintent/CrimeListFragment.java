@@ -27,6 +27,7 @@ public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
 
+    // Fragment lifecycle which creates and returns the view hierarchy associated with the fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -40,7 +41,14 @@ public class CrimeListFragment extends Fragment {
         return view;
     }
 
-    //
+    // Fragment lifecycle which makes fragment begin interacting with user
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
+    // Called whenever onCreateView is triggered
     private void updateUI() {
         // .get(Context context) returns an instance of CrimeLab
         // getActivity() returns a FragmentActivity
@@ -49,10 +57,15 @@ public class CrimeListFragment extends Fragment {
         // Get a List of Crime objects
         List<Crime> crimes = crimeLab.getCrimes();
 
-        mAdapter = new CrimeAdapter(crimes);
+        if (mAdapter == null) {
+            mAdapter = new CrimeAdapter(crimes);
 
-        // public void setAdapter(Adapter adapter) - Set a new adapter to provide child views on demand
-        mCrimeRecyclerView.setAdapter(mAdapter);
+            // setAdapter(Adapter adapter) - Sets a new adapter to provide child views on demand
+            mCrimeRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
+
     }
 
     // Defines ViewHolder which describes an item view and metadata about its place within the RecyclerView

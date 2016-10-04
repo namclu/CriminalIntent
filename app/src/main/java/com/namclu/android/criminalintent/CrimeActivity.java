@@ -7,14 +7,14 @@ import android.support.v4.app.Fragment;
 import java.util.UUID;
 
 /*
- * CrimeActivity.java displays a single crime. It is launched when the user clicks on a
- * Crime from the CrimeListActivity.java
+ * CrimeActivity.java is an Activity that hosts an instance of CrimeFragment.java. It is launched
+ * when the user clicks on a Crime from the CrimeListActivity.java
  */
 
 public class CrimeActivity extends SingleFragmentActivity {
 
     // Unique identifier for crimeId
-    public static final String EXTRA_CRIME_ID = "com.namclu.android.criminalintent.crime_id";
+    private static final String EXTRA_CRIME_ID = "com.namclu.android.criminalintent.crime_id";
 
     // Tells CrimeFragment which Crime to display by passing it the Crime ID
     public static Intent newIntent(Context packageContext, UUID crimeId) {
@@ -25,9 +25,11 @@ public class CrimeActivity extends SingleFragmentActivity {
         return intent;
     }
 
-    // Calls SingleFragmentActivity's createFragment()
+    // Using CrimeFragment's newInstance()
+    // getIntent() returns the intent that started this Activity
     @Override
     protected Fragment createFragment() {
-        return new CrimeFragment();
+        UUID crimeId = (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+        return CrimeFragment.newInstance(crimeId);
     }
 }
