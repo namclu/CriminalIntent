@@ -62,14 +62,16 @@ public class CrimeListFragment extends Fragment {
         // Get a List of Crime objects
         List<Crime> crimes = crimeLab.getCrimes();
 
-        // TODO - When updating UI, if last position clicked > 0, then update only that position
+        // When updating UI, update only the position user last clicked on
         if (mAdapter == null) {
             mAdapter = new CrimeAdapter(crimes);
 
             // setAdapter(Adapter adapter) - Sets a new adapter to provide child views on demand
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.notifyDataSetChanged();
+            // Use notifyDataSetChanged() as a last resort. Always more efficient to use more specific
+            //  change events such as notifyItemChanged(int), notifyItemInserted(int)
+            mAdapter.notifyItemChanged(mItemPosition);
         }
 
     }
