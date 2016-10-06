@@ -55,7 +55,7 @@ public class CrimeFragment extends Fragment {
 
     // CrimeFragment's onCreate() must be public (vs. protected) because they will be called by
     // whatever activity is hosting the fragment
-    // Retrieve the EXTRA from CrimeActivity and fetch the crime
+    // Retrieve the EXTRA and fetch the crime
     // getArguments() plus type-specific "get" methods of Bundle used by Fragments to access its arguments
     @Override
     public void onCreate(Bundle savedInstanceState) {

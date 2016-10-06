@@ -94,10 +94,10 @@ public class CrimeListFragment extends Fragment {
             mSolvedCheckBox.setChecked(mCrime.isSolved());
         }
 
-        // onClick() launches a new CrimeActivity that is hosting a CrimeFragment
+        // onClick() launches a new CrimePagerActivity
         @Override
         public void onClick(View view) {
-            Intent intent = CrimeActivity.newIntent(getActivity() , mCrime.getId());
+            Intent intent = CrimePagerActivity.newIntent(getActivity() , mCrime.getId());
             startActivity(intent);
         }
     }
