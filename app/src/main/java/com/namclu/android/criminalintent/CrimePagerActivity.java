@@ -74,6 +74,13 @@ public class CrimePagerActivity extends FragmentActivity {
             }
         });
 
+        // Setting ViewPager's current item to the index of the selected item
+        for (int i = 0; i < mCrimes.size(); i++) {
+            if (mCrimes.get(i).getId().equals(crimeId)) {
+                mViewPager.setCurrentItem(i);
+                break;
+            }
+        }
     }
 
 
