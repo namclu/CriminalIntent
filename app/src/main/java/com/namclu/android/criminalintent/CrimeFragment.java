@@ -2,6 +2,7 @@ package com.namclu.android.criminalintent;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -24,6 +25,8 @@ public class CrimeFragment extends Fragment {
 
     // String key for Crime ID
     private static final String ARG_CRIME_ID = "crime_id";
+    // 12: Constant for DatePickerFragment's tag
+    private static final String DIALOG_DATE = "DialogDate";
 
     /*
      * @param mCrime a member variable for an instance of Crime
@@ -94,7 +97,18 @@ public class CrimeFragment extends Fragment {
         // Assign reference to mDateButton, set its text to Crime's mDate, and enabled to false
         mDateButton = (Button) view.findViewById(R.id.crime_date);
         mDateButton.setText(mCrime.getDate().toString());
-        mDateButton.setEnabled(false);
+        // 12 Set DatePickerFragment button to active
+        mDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getFragmentManager();
+                DatePickerFragment dialog = new DatePickerFragment();
+                // 12: public void show(FragmentManager manager, String tag)
+                // 12: Using FragmentManager, a transaction will be automatically be created
+                //      and committed vs. using FragmentTransaction where you're responsible
+                dialog.show(manager, DIALOG_DATE);
+            }
+        });
 
         // Assign reference to mSolvedCheckBox, set a listener that will update Crime's mSolved field
         mSolvedCheckBox = (CheckBox) view.findViewById(R.id.crime_solved);

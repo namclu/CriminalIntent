@@ -15,7 +15,7 @@ import java.util.UUID;
 /**
  * Created by namlu on 04-Oct-16.
  *
- * CrimePagerActivity.java replaces Crime Activity.java to allow users to navigate to a different
+ * CrimePagerActivity.java replaces CrimeActivity.java to allow users to navigate to a different
  * CrimeFragment by swiping right/left.
  */
 
