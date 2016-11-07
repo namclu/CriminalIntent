@@ -25,7 +25,7 @@ public class CrimeFragment extends Fragment {
 
     // String key for Crime ID
     private static final String ARG_CRIME_ID = "crime_id";
-    // 12: Constant for DatePickerFragment's tag
+    // 12.3: String parameter uniquely identifies DialogFragment in FragmentManager's list
     private static final String DIALOG_DATE = "DialogDate";
 
     /*
@@ -97,14 +97,15 @@ public class CrimeFragment extends Fragment {
         // Assign reference to mDateButton, set its text to Crime's mDate, and enabled to false
         mDateButton = (Button) view.findViewById(R.id.crime_date);
         mDateButton.setText(mCrime.getDate().toString());
-        // 12 Set DatePickerFragment button to active
+        // 12.3 Set DatePickerFragment button to active and show DialogFragment
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = new DatePickerFragment();
-                // 12: public void show(FragmentManager manager, String tag)
-                // 12: Using FragmentManager, a transaction will be automatically be created
+                // 12.6: DatePickerFragment.newInstance(mCrime.getDate()) replaces new DatePickerFragment()
+                DatePickerFragment dialog = DatePickerFragment.newInstance(mCrime.getDate());
+                // 12.3: public void show(FragmentManager manager, String tag)
+                // 12.3: Using FragmentManager, a transaction will be automatically be created
                 //      and committed vs. using FragmentTransaction where you're responsible
                 dialog.show(manager, DIALOG_DATE);
             }
