@@ -1,5 +1,7 @@
 package com.namclu.android.criminalintent;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -27,6 +30,8 @@ public class CrimeFragment extends Fragment {
     private static final String ARG_CRIME_ID = "crime_id";
     // 12.3: String parameter uniquely identifies DialogFragment in FragmentManager's list
     private static final String DIALOG_DATE = "DialogDate";
+    // 12.8: Request code used to identify target fragment
+    private static final int REQUEST_DATE = 0;
 
     /*
      * @param mCrime a member variable for an instance of Crime
@@ -96,7 +101,7 @@ public class CrimeFragment extends Fragment {
 
         // Assign reference to mDateButton, set its text to Crime's mDate, and enabled to false
         mDateButton = (Button) view.findViewById(R.id.crime_date);
-        mDateButton.setText(mCrime.getDate().toString());
+        updateDate();
         // 12.3 Set DatePickerFragment button to active and show DialogFragment
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +109,9 @@ public class CrimeFragment extends Fragment {
                 FragmentManager manager = getFragmentManager();
                 // 12.6: DatePickerFragment.newInstance(mCrime.getDate()) replaces new DatePickerFragment()
                 DatePickerFragment dialog = DatePickerFragment.newInstance(mCrime.getDate());
+                // 12.8: setTargetFragment() accepts fragment that will be the target and request code
+                //      is used to identify which fragment is reporting back
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
                 // 12.3: public void show(FragmentManager manager, String tag)
                 // 12.3: Using FragmentManager, a transaction will be automatically be created
                 //      and committed vs. using FragmentTransaction where you're responsible
@@ -123,5 +131,27 @@ public class CrimeFragment extends Fragment {
         });
 
         return view;
+    }
+
+    // 12.11: Activity.onActivityResult() is the method ActivityManager calls on parent activity
+    //      after child activity dies. With fragments, after activity receives the call, activity's
+    //      FragmentManager then calls Fragment.onActivityResult() on appropriate fragment
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == REQUEST_DATE) {
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mCrime.setDate(date);
+            updateDate();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void updateDate() {
+        mDateButton.setText(mCrime.getDate().toString());
     }
 }
