@@ -32,6 +32,8 @@ public class CrimeFragment extends Fragment {
     private static final String DIALOG_DATE = "DialogDate";
     // 12.8: Request code used to identify target fragment
     private static final int REQUEST_DATE = 0;
+    // 12.C: String parameter uniquely identifies TimePickerFragment in FragmentManager's list
+    private static final String DIALOG_TIME = "DialogTime";
 
     /*
      * @param mCrime a member variable for an instance of Crime
@@ -42,6 +44,7 @@ public class CrimeFragment extends Fragment {
     private Crime mCrime;
     private EditText mTitleField;
     private Button mDateButton;
+    private Button mTimeButton;
     private CheckBox mSolvedCheckBox;
 
     // Bundle contains key-value pairs for Fragments, similar to how intent extras behave for Activities
@@ -119,6 +122,19 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+        // 12.C:
+        mTimeButton = (Button) view.findViewById(R.id.crime_time);
+        //updateTime();
+
+        mTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getFragmentManager();
+                TimePickerFragment timeDialog = new TimePickerFragment();
+                timeDialog.show(manager, DIALOG_TIME);
+            }
+        });
+
         // Assign reference to mSolvedCheckBox, set a listener that will update Crime's mSolved field
         mSolvedCheckBox = (CheckBox) view.findViewById(R.id.crime_solved);
         mSolvedCheckBox.setChecked(mCrime.isSolved());
@@ -154,4 +170,9 @@ public class CrimeFragment extends Fragment {
     private void updateDate() {
         mDateButton.setText(mCrime.getDate().toString());
     }
+
+    // Todo 12.C: Set time to ...
+    /*private void updateTime() {
+        mTimeButton.setText(mCrime.getTime().toString());
+    }*/
 }
