@@ -1,5 +1,6 @@
 package com.namclu.android.criminalintent;
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ public class Crime {
     private UUID mID;
     private String mTitle;
     private Date mDate;
+    private Time mTime;
     private boolean mSolved;
 
 
@@ -44,6 +46,14 @@ public class Crime {
 
     public void setDate(Date date) {
         mDate = date;
+    }
+
+    public Time getTime() {
+        return mTime;
+    }
+
+    public void setTime(Time time) {
+        mTime = time;
     }
 
     public boolean isSolved() {
