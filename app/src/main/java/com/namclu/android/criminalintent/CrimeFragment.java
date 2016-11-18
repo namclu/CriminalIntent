@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -34,6 +35,8 @@ public class CrimeFragment extends Fragment {
     private static final int REQUEST_DATE = 0;
     // 12.C: String parameter uniquely identifies TimePickerFragment in FragmentManager's list
     private static final String DIALOG_TIME = "DialogTime";
+    // 12.C
+    private static final int REQUEST_TIME = 1;
 
     /*
      * @param mCrime a member variable for an instance of Crime
@@ -124,13 +127,14 @@ public class CrimeFragment extends Fragment {
 
         // 12.C:
         mTimeButton = (Button) view.findViewById(R.id.crime_time);
-        //updateTime();
+        updateTime();
 
         mTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getFragmentManager();
-                TimePickerFragment timeDialog = TimePickerFragment.newInstance(mCrime.getTime());
+                TimePickerFragment timeDialog = TimePickerFragment.newInstance(mCrime.getDate());
+                timeDialog.setTargetFragment(CrimeFragment.this, REQUEST_TIME);
                 timeDialog.show(manager, DIALOG_TIME);
             }
         });
@@ -162,6 +166,10 @@ public class CrimeFragment extends Fragment {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mCrime.setDate(date);
             updateDate();
+        } else if (requestCode == REQUEST_TIME) {
+            Date time = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
+            mCrime.setDate(time);
+            updateTime();
         }
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -171,8 +179,10 @@ public class CrimeFragment extends Fragment {
         mDateButton.setText(mCrime.getDate().toString());
     }
 
-    // Todo 12.C: Set time to ...
-    /*private void updateTime() {
-        mTimeButton.setText(mCrime.getTime().toString());
-    }*/
+    // 12.C: Set format of time to kk:mm:ss --> k: Hour in day (1-24), m: Minute in hour, s: Second in minute
+    //      then update time on time button.
+    private void updateTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("kk:mm:ss");
+        mTimeButton.setText(simpleDateFormat.format(mCrime.getDate()));
+    }
 }
