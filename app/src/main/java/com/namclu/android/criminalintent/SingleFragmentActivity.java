@@ -2,14 +2,14 @@ package com.namclu.android.criminalintent;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by namlu on 01-Oct-16.
  */
 
-public abstract class SingleFragmentActivity extends FragmentActivity {
+public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     // Method used to return an instance of the fragment that activity is hosting.
     protected abstract Fragment createFragment();
