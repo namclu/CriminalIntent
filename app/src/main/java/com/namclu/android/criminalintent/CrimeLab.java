@@ -32,15 +32,11 @@ public class CrimeLab {
     // CrimeLab's constructor
     private CrimeLab(Context context) {
         mCrimes = new ArrayList<>();
+    }
 
-        // Create a list of 100 Crime objects
-        for (int i = 0; i < 100; i++) {
-            Crime crime = new Crime();
-            crime.setTitle("Crime #" + i);
-            // Every other crime (starting w/ 0) will be set to 'true'
-            crime.setSolved(i % 2 == 0);
-            mCrimes.add(crime);
-        }
+    // 13.10: Method to add a new Crime, replacing code in CrimeLab() which generated 100 Crime
+    public void addCrime(Crime crime) {
+        mCrimes.add(crime);
     }
 
     // Returns a List of Crime objects

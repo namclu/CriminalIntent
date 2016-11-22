@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -65,6 +66,23 @@ public class CrimeListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         // inflate(int menuRes, Menu menu);
         inflater.inflate(R.menu.fragment_crime_list, menu);
+    }
+
+    // 13.12: Implement onOptionsItemSelected(MenuItem) to respond to selection of MenuItem
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_new_crime:
+                Crime crime = new Crime();
+                // .get(Context) returns an instance of CrimeLab
+                CrimeLab.get(getActivity()).addCrime(crime);
+                // .newIntent(Context, UUID)
+                Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // Called whenever onCreateView is triggered
