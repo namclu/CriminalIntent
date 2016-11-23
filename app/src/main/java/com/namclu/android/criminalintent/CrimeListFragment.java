@@ -3,6 +3,7 @@ package com.namclu.android.criminalintent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,7 +26,6 @@ public class CrimeListFragment extends Fragment {
     /*
      * @param mCrimeRecyclerView
      * @param mAdapter
-     *
      */
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
@@ -72,6 +72,7 @@ public class CrimeListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            // 13.12: Respond to the "+" icon being pressed and returns a new Crime object
             case R.id.menu_item_new_crime:
                 Crime crime = new Crime();
                 // .get(Context) returns an instance of CrimeLab
@@ -80,9 +81,28 @@ public class CrimeListFragment extends Fragment {
                 Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
                 startActivity(intent);
                 return true;
+            // 13.16: Respond to Show Subtitle action item
+            case R.id.menu_item_show_subtitle:
+                updateSubtitle();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    // 13.15 Setting the toolbar's subtitle
+    public void updateSubtitle() {
+        // Crime.get(Context) returns a CrimeLab object
+        CrimeLab crimeLab = CrimeLab.get(getActivity());
+        // CrimeLab.getCrimes returns a List<Crime>
+        int crimeCount = crimeLab.getCrimes().size();
+        // getString(int resId, Object... formatArgs) generates the subtitle string
+        String subtitle = getString(R.string.subtitle_format, crimeCount);
+
+        // Activity that is hosting CrimeFragmentList is cast to AppCompatActivity since CriminalIntent
+        //      uses the AppCompat library, all activities will be subclass of AppCompatActivity
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setSubtitle(subtitle);
     }
 
     // Called whenever onCreateView is triggered

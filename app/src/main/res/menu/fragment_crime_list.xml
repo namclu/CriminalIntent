@@ -7,4 +7,10 @@
         android:icon="@drawable/ic_menu_add"
         android:title="@string/new_crime"
         app:showAsAction="ifRoom|withText"/>
+
+    <!-- 13.14: Add Show Subtitle action button -->
+    <item
+        android:id="@+id/menu_item_show_subtitle"
+        android:title="@string/show_subtitle"
+        app:showAsAction="ifRoom"/>
 </menu>
