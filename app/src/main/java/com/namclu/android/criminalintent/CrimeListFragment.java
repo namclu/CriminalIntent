@@ -26,9 +26,11 @@ public class CrimeListFragment extends Fragment {
     /*
      * @param mCrimeRecyclerView
      * @param mAdapter
+     * @param mSubtitleVisible - Variable to track if Show Subtitle button is visible or not
      */
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private boolean mSubtitleVisible;
 
     // 13.8: By calling setHasOptionsMenu(), explicitly tells FragmentManager that fragment should
     //      receive a call to onCreateOptionsMenu()
@@ -66,6 +68,15 @@ public class CrimeListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         // inflate(int menuRes, Menu menu);
         inflater.inflate(R.menu.fragment_crime_list, menu);
+
+        // 13.18: Triggers a recreation of action items when user presses the "Show Subtitle"
+        //      action item
+        MenuItem subtitleItem = menu.findItem(R.id.menu_item_show_subtitle);
+        if (mSubtitleVisible) {
+            subtitleItem.setTitle(R.string.hide_subtitle);
+        } else {
+            subtitleItem.setTitle(R.string.show_subtitle);
+        }
     }
 
     // 13.12: Implement onOptionsItemSelected(MenuItem) to respond to selection of MenuItem
@@ -83,6 +94,13 @@ public class CrimeListFragment extends Fragment {
                 return true;
             // 13.16: Respond to Show Subtitle action item
             case R.id.menu_item_show_subtitle:
+                // 13.18:
+                // Switch boolean value of mSubtitleVisible
+                // invalidateOptionsMenu() declares option menu has changed, so should be recreated
+                //      onCreateOptionsMenu(Menu) will be called the next time it needs to be displayed
+                mSubtitleVisible = !mSubtitleVisible;
+                getActivity().invalidateOptionsMenu();
+
                 updateSubtitle();
                 return true;
             default:
@@ -98,6 +116,11 @@ public class CrimeListFragment extends Fragment {
         int crimeCount = crimeLab.getCrimes().size();
         // getString(int resId, Object... formatArgs) generates the subtitle string
         String subtitle = getString(R.string.subtitle_format, crimeCount);
+
+        // 13.19: Showing or hiding the subtitle
+        if (!mSubtitleVisible) {
+            subtitle = null;
+        }
 
         // Activity that is hosting CrimeFragmentList is cast to AppCompatActivity since CriminalIntent
         //      uses the AppCompat library, all activities will be subclass of AppCompatActivity
